@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 public class DbJobLauncher {
     private JobLauncher jobLauncher;
     private Job dbJob;
+    private Job planetJob;
 
     @Scheduled(fixedDelay = 15000)
     public void run() throws Exception {
@@ -20,5 +21,13 @@ public class DbJobLauncher {
                 .addLong("time", System.currentTimeMillis())
                 .toJobParameters();
         jobLauncher.run(dbJob, jobParameters);
+    }
+
+    @Scheduled(fixedDelay = 15000)
+    public void runPlanetJob() throws Exception {
+        JobParameters jobParameters = new JobParametersBuilder()
+                .addLong("time", System.currentTimeMillis())
+                .toJobParameters();
+        jobLauncher.run(planetJob, jobParameters);
     }
 }
