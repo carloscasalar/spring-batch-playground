@@ -24,9 +24,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @Configuration
 @EnableBatchProcessing
+@EnableScheduling
 public class Csv2XmlBatchConfiguration {
 
     @Bean
