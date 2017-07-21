@@ -1,4 +1,4 @@
-package com.carloscasalar.starwarsbatch.tasklet;
+package com.starwars.batch.tasklet;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.StepContribution;
@@ -10,10 +10,11 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 public class HelloWorldTasklet implements Tasklet {
+
     @Override
     public RepeatStatus execute(StepContribution stepContribution, ChunkContext chunkContext) throws Exception {
+        log.info("Hello World");
 
-        log.info("Tasklet executed");
         return RepeatStatus.FINISHED;
     }
 }
