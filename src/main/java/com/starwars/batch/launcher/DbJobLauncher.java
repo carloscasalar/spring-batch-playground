@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @AllArgsConstructor
-public class CsvJobLauncher {
+public class DbJobLauncher {
     private JobLauncher jobLauncher;
     private Job dbJob;
 
