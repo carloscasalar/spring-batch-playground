@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @Data
 @XmlRootElement(name = "people")
-public class People {
+public class People implements Cloneable{
     private String name;
     private String birthYear;
     private String gender;
@@ -15,4 +15,9 @@ public class People {
     private String eyeColor;
     private String hairColor;
     private String skinColor;
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 }

@@ -1,12 +1,14 @@
 package com.starwars.batch.config;
 
 import com.starwars.batch.domain.People;
+import com.starwars.batch.processor.PeopleProcessor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
+import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.file.FlatFileItemReader;
@@ -26,7 +28,7 @@ public class Csv2XmlBatchConfiguration {
     @Bean
     public ItemReader<People> peopleReader() {
         DelimitedLineTokenizer lineTokenizer = new DelimitedLineTokenizer();
-        lineTokenizer.setNames(new String[] {"name","birthYear","gender","height","mass","eyeColor","hairColor","skinColor"});
+        lineTokenizer.setNames(new String[]{"name", "birthYear", "gender", "height", "mass", "eyeColor", "hairColor", "skinColor"});
 
         BeanWrapperFieldSetMapper<People> fieldSetMapper = new BeanWrapperFieldSetMapper<>();
         fieldSetMapper.setTargetType(People.class);
@@ -59,16 +61,23 @@ public class Csv2XmlBatchConfiguration {
     }
 
     @Bean
+    public ItemProcessor peopleItemProcessor() {
+        return new PeopleProcessor();
+    }
+
+    @Bean
     public Step csvStep(StepBuilderFactory stepBuilderFactory,
                         ItemReader peopleReader,
+                        ItemProcessor peopleItemProcessor,
                         ItemWriter peopleWriter) {
 
         return stepBuilderFactory
-            .get("csvStep")
-            .chunk(10)
-            .reader(peopleReader)
-            .writer(peopleWriter)
-            .build();
+                .get("csvStep")
+                .chunk(10)
+                .reader(peopleReader)
+                .processor(peopleItemProcessor)
+                .writer(peopleWriter)
+                .build();
     }
 
     @Bean
@@ -76,10 +85,10 @@ public class Csv2XmlBatchConfiguration {
                       Step csvStep) {
 
         return jobBuilderFactory
-            .get("csvJob")
-            .incrementer(new RunIdIncrementer())
-            .start(csvStep)
-            .build();
+                .get("csvJob")
+                .incrementer(new RunIdIncrementer())
+                .start(csvStep)
+                .build();
     }
 }
 
