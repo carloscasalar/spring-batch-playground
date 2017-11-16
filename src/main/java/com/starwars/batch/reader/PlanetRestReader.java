@@ -26,14 +26,14 @@ public class PlanetRestReader implements ItemReader<Planet> {
             planetList = fetchPlanetListFromAPI();
         }
 
-        Planet nextStudent = null;
+        Planet nextPlanet = null;
 
         if (nextPlanetIndex < planetList.size()) {
-            nextStudent = planetList.get(nextPlanetIndex);
+            nextPlanet = planetList.get(nextPlanetIndex);
             nextPlanetIndex++;
         }
 
-        return nextStudent;
+        return nextPlanet;
     }
 
     private boolean planetListIsNotInitialized() {
